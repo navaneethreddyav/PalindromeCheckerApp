@@ -1,17 +1,25 @@
 public class PalindromeChecker {
     /*
-    This is a Java Palindrome Checker App Welcome Message
     author : Navaneeth
-    version : 1.0
+    version : 2.0
      */
 
     public static void main(String[] args){
-        System.out.println("Welcome to the Palindrome Checker Management System");
-        System.out.println("Version : 1.0");
-        System.out.println("System initialized successfully.");
+        // Hardcoded string (String Literal)
+        String word = "madam";
 
+        // Reverse the string
+        String reversed = "";
 
+        for (int i = word.length() - 1; i >= 0; i--) {
+            reversed = reversed + word.charAt(i);
+        }
 
-
+        // Check if palindrome using if-else
+        if (word.equals(reversed)) {
+            System.out.println(word + " is a Palindrome.");
+        } else {
+            System.out.println(word + " is not a Palindrome.");
+        }
     }
 }
