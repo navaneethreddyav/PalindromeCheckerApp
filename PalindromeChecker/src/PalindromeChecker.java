@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 public class PalindromeChecker {
     /*
     author : Navaneeth
@@ -9,22 +11,25 @@ public class PalindromeChecker {
         // Original String
         String original = "level";
 
-        // Convert string to character array
-        char[] characters = original.toCharArray();
+        // Convert to lowercase (optional)
+        original = original.toLowerCase();
 
-        // Two-pointer approach
-        int start = 0;
-        int end = characters.length - 1;
+        // Create Stack
+        Stack<Character> stack = new Stack<>();
+
+        // Push characters into stack
+        for (int i = 0; i < original.length(); i++) {
+            stack.push(original.charAt(i));
+        }
 
         boolean isPalindrome = true;
 
-        while (start < end) {
-            if (characters[start] != characters[end]) {
+        // Pop and compare
+        for (int i = 0; i < original.length(); i++) {
+            if (original.charAt(i) != stack.pop()) {
                 isPalindrome = false;
                 break;
             }
-            start++;
-            end--;
         }
 
         // Display result
