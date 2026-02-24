@@ -1,42 +1,42 @@
 public class PalindromeChecker {
     /*
     author : Navaneeth
-    version : 9.0
+    version : 10.0
     */
 
     public static void main(String[] args) {
 
-        // Original String
-        String original = "level";
+        // Original String with spaces & mixed case
+        String original = "A man a plan a canal Panama";
 
-        // Convert to lowercase (optional)
-        original = original.toLowerCase();
+        // Normalize string: remove spaces & convert to lowercase
+        String normalized = original.replaceAll("\\s+", "").toLowerCase();
 
-        // Check palindrome using recursion
-        boolean isPalindrome = isPalindromeRecursive(original, 0, original.length() - 1);
+        // Check palindrome using recursive method
+        boolean isPalindrome = isPalindromeRecursive(normalized, 0, normalized.length() - 1);
 
         // Display result
         if (isPalindrome) {
-            System.out.println(original + " is a Palindrome.");
+            System.out.println("\"" + original + "\" is a Palindrome (ignoring spaces & case).");
         } else {
-            System.out.println(original + " is not a Palindrome.");
+            System.out.println("\"" + original + "\" is not a Palindrome (ignoring spaces & case).");
         }
     }
 
-    // Recursive method to check palindrome
+    // Recursive palindrome check
     public static boolean isPalindromeRecursive(String str, int start, int end) {
 
-        // Base case: crossed over or single character
+        // Base case
         if (start >= end) {
             return true;
         }
 
-        // If characters mismatch
+        // Mismatch
         if (str.charAt(start) != str.charAt(end)) {
             return false;
         }
 
-        // Recursive call moving towards center
+        // Recursive call
         return isPalindromeRecursive(str, start + 1, end - 1);
     }
 }
