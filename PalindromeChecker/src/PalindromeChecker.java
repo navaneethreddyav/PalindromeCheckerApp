@@ -1,47 +1,79 @@
 import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class PalindromeChecker {
     /*
     author : Navaneeth
-    version : 11.0
+    version : 12.0
     */
 
-    // Encapsulated palindrome logic
-    public boolean checkPalindrome(String original) {
+    // Strategy Interface
+    interface PalindromeStrategy {
+        boolean check(String input);
+    }
 
-        // Normalize string: remove spaces & convert to lowercase
-        String normalized = original.replaceAll("\\s+", "").toLowerCase();
+    // Stack Strategy
+    static class StackStrategy implements PalindromeStrategy {
 
-        // Internal Data Structure: Stack
-        Stack<Character> stack = new Stack<>();
+        public boolean check(String original) {
 
-        // Push characters into stack
-        for (int i = 0; i < normalized.length(); i++) {
-            stack.push(normalized.charAt(i));
-        }
+            String normalized = original.replaceAll("\\s+", "").toLowerCase();
+            Stack<Character> stack = new Stack<>();
 
-        // Compare with reversed order using stack
-        for (int i = 0; i < normalized.length(); i++) {
-            if (normalized.charAt(i) != stack.pop()) {
-                return false;
+            for (int i = 0; i < normalized.length(); i++) {
+                stack.push(normalized.charAt(i));
             }
-        }
 
-        return true;
+            for (int i = 0; i < normalized.length(); i++) {
+                if (normalized.charAt(i) != stack.pop()) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
+
+    // Deque Strategy
+    static class DequeStrategy implements PalindromeStrategy {
+
+        public boolean check(String original) {
+
+            String normalized = original.replaceAll("\\s+", "").toLowerCase();
+            Deque<Character> deque = new ArrayDeque<>();
+
+            for (int i = 0; i < normalized.length(); i++) {
+                deque.addLast(normalized.charAt(i));
+            }
+
+            while (deque.size() > 1) {
+                if (deque.removeFirst() != deque.removeLast()) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
+
+    // Context method (uses strategy)
+    public boolean checkPalindrome(String original, PalindromeStrategy strategy) {
+        return strategy.check(original);
     }
 
     public static void main(String[] args) {
 
-        // Original String with spaces & mixed case
         String original = "A man a plan a canal Panama";
 
-        // Create object (OOPS)
         PalindromeChecker checker = new PalindromeChecker();
 
-        // Call encapsulated method
-        boolean isPalindrome = checker.checkPalindrome(original);
+        // Choose strategy dynamically
+        PalindromeStrategy strategy = new StackStrategy();
+        // PalindromeStrategy strategy = new DequeStrategy();
 
-        // Display result
+        boolean isPalindrome = checker.checkPalindrome(original, strategy);
+
         if (isPalindrome) {
             System.out.println("\"" + original + "\" is a Palindrome (ignoring spaces & case).");
         } else {
