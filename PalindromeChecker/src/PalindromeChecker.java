@@ -1,19 +1,45 @@
+import java.util.Stack;
+
 public class PalindromeChecker {
     /*
     author : Navaneeth
-    version : 10.0
+    version : 11.0
     */
+
+    // Encapsulated palindrome logic
+    public boolean checkPalindrome(String original) {
+
+        // Normalize string: remove spaces & convert to lowercase
+        String normalized = original.replaceAll("\\s+", "").toLowerCase();
+
+        // Internal Data Structure: Stack
+        Stack<Character> stack = new Stack<>();
+
+        // Push characters into stack
+        for (int i = 0; i < normalized.length(); i++) {
+            stack.push(normalized.charAt(i));
+        }
+
+        // Compare with reversed order using stack
+        for (int i = 0; i < normalized.length(); i++) {
+            if (normalized.charAt(i) != stack.pop()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     public static void main(String[] args) {
 
         // Original String with spaces & mixed case
         String original = "A man a plan a canal Panama";
 
-        // Normalize string: remove spaces & convert to lowercase
-        String normalized = original.replaceAll("\\s+", "").toLowerCase();
+        // Create object (OOPS)
+        PalindromeChecker checker = new PalindromeChecker();
 
-        // Check palindrome using recursive method
-        boolean isPalindrome = isPalindromeRecursive(normalized, 0, normalized.length() - 1);
+        // Call encapsulated method
+        boolean isPalindrome = checker.checkPalindrome(original);
 
         // Display result
         if (isPalindrome) {
@@ -21,22 +47,5 @@ public class PalindromeChecker {
         } else {
             System.out.println("\"" + original + "\" is not a Palindrome (ignoring spaces & case).");
         }
-    }
-
-    // Recursive palindrome check
-    public static boolean isPalindromeRecursive(String str, int start, int end) {
-
-        // Base case
-        if (start >= end) {
-            return true;
-        }
-
-        // Mismatch
-        if (str.charAt(start) != str.charAt(end)) {
-            return false;
-        }
-
-        // Recursive call
-        return isPalindromeRecursive(str, start + 1, end - 1);
     }
 }
