@@ -5,15 +5,13 @@ import java.util.Deque;
 public class PalindromeChecker {
     /*
     author : Navaneeth
-    version : 12.0
+    version : 13.0
     */
 
-    // Strategy Interface
     interface PalindromeStrategy {
         boolean check(String input);
     }
 
-    // Stack Strategy
     static class StackStrategy implements PalindromeStrategy {
 
         public boolean check(String original) {
@@ -35,7 +33,6 @@ public class PalindromeChecker {
         }
     }
 
-    // Deque Strategy
     static class DequeStrategy implements PalindromeStrategy {
 
         public boolean check(String original) {
@@ -57,7 +54,6 @@ public class PalindromeChecker {
         }
     }
 
-    // Context method (uses strategy)
     public boolean checkPalindrome(String original, PalindromeStrategy strategy) {
         return strategy.check(original);
     }
@@ -68,16 +64,24 @@ public class PalindromeChecker {
 
         PalindromeChecker checker = new PalindromeChecker();
 
-        // Choose strategy dynamically
-        PalindromeStrategy strategy = new StackStrategy();
-        // PalindromeStrategy strategy = new DequeStrategy();
+        PalindromeStrategy stackStrategy = new StackStrategy();
+        PalindromeStrategy dequeStrategy = new DequeStrategy();
 
-        boolean isPalindrome = checker.checkPalindrome(original, strategy);
+        long startTime, endTime;
 
-        if (isPalindrome) {
-            System.out.println("\"" + original + "\" is a Palindrome (ignoring spaces & case).");
-        } else {
-            System.out.println("\"" + original + "\" is not a Palindrome (ignoring spaces & case).");
-        }
+        // Stack Performance
+        startTime = System.nanoTime();
+        boolean stackResult = checker.checkPalindrome(original, stackStrategy);
+        endTime = System.nanoTime();
+        long stackTime = endTime - startTime;
+
+        // Deque Performance
+        startTime = System.nanoTime();
+        boolean dequeResult = checker.checkPalindrome(original, dequeStrategy);
+        endTime = System.nanoTime();
+        long dequeTime = endTime - startTime;
+
+        System.out.println("Stack Result: " + stackResult + " | Time: " + stackTime + " ns");
+        System.out.println("Deque Result: " + dequeResult + " | Time: " + dequeTime + " ns");
     }
 }
